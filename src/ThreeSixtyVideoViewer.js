@@ -3,7 +3,7 @@ import Hammer from 'hammerjs';
 class ThreeSixtyVideoViewer {
   constructor(settings) {
     const {
-      selector = '#video', boost = 6, frameRate = 6, pixelToFrame = 6,
+      selector = '#video', boost = 6, frameRate = 25, pixelToFrame = 10,
     } = settings;
 
     this.video = document.querySelector(selector); // eslint-disable-line

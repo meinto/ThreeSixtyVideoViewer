@@ -1,0 +1,34 @@
+{
+  "name": "ThreeSixtyVideoViewer",
+  "version": "0.1",
+  "main": "src/ThreeSixtyVideoViewer.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --env dev && webpack --env build",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --open"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "prettier": "1.11.1",
+    "rimraf": "^2.6.2",
+    "yargs": "^11.0.0"
+  },
+  "dependencies": {
+    "hammerjs": "^2.0.8",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
+    "webpack-dev-server": "^3.1.1"
+  }
+}

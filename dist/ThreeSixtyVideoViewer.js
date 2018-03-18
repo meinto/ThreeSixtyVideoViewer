@@ -2742,6 +2742,8 @@ if (true) {
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _hammerjs = __webpack_require__(/*! hammerjs */ "./node_modules/hammerjs/hammer.js");
 
 var _hammerjs2 = _interopRequireDefault(_hammerjs);
@@ -2755,47 +2757,56 @@ var ThreeSixtyVideoViewer = function ThreeSixtyVideoViewer(settings) {
 
   _classCallCheck(this, ThreeSixtyVideoViewer);
 
-  var _settings$selector = settings.selector,
-      selector = _settings$selector === undefined ? '#video' : _settings$selector,
-      _settings$boost = settings.boost,
-      boost = _settings$boost === undefined ? 6 : _settings$boost,
-      _settings$frameRate = settings.frameRate,
-      frameRate = _settings$frameRate === undefined ? 6 : _settings$frameRate,
-      _settings$pixelToFram = settings.pixelToFrame,
-      pixelToFrame = _settings$pixelToFram === undefined ? 6 : _settings$pixelToFram;
+  this.pan = function (ev) {
+    _this.step = Math.floor(ev.deltaX / _this.settings.pixelToFrame);
+  };
 
+  this.panleft = function (ev) {
+    var _settings = _this.settings,
+        boost = _settings.boost,
+        frameRate = _settings.frameRate;
 
-  this.video = document.querySelector(selector); // eslint-disable-line
-  this.hammer = new _hammerjs2.default(this.video);
-
-  var lastStep = 0;
-  var step = 0;
-
-  this.hammer.add(new _hammerjs2.default.Pan({ direction: _hammerjs2.default.DIRECTION_HORIZONTAL, threshold: 10 }));
-
-  this.hammer.on('pan', function (ev) {
-    step = Math.floor(ev.deltaX / pixelToFrame);
-  });
-
-  this.hammer.on('panleft', function (ev) {
-    if (step !== lastStep && !_this.video.seeking) {
+    if (_this.step !== _this.lastStep && !_this.video.seeking) {
       _this.video.currentTime -= (1 + -ev.velocityX * boost) / frameRate; // eslint-disable-line
-      lastStep = step;
+      _this.lastStep = _this.step;
       if (_this.video.currentTime === 0) {
         _this.video.currentTime = _this.video.duration;
       }
     }
-  });
+  };
 
-  this.hammer.on('panright', function (ev) {
-    if (step !== lastStep && !_this.video.seeking) {
+  this.panright = function (ev) {
+    var _settings2 = _this.settings,
+        boost = _settings2.boost,
+        frameRate = _settings2.frameRate;
+
+    if (_this.step !== _this.lastStep && !_this.video.seeking) {
       _this.video.currentTime += (1 + ev.velocityX * boost) / frameRate; // eslint-disable-line
-      lastStep = step;
+      _this.lastStep = _this.step;
       if (_this.video.duration === _this.video.currentTime) {
         _this.video.currentTime = 0;
       }
     }
-  });
+  };
+
+  this.settings = _extends({
+    selector: '#video',
+    boost: 6,
+    frameRate: 25,
+    pixelToFrame: 10
+  }, settings);
+
+  this.video = document.querySelector(this.settings.selector);
+  this.hammer = new _hammerjs2.default(this.video);
+
+  this.lastStep = 0;
+  this.step = 0;
+
+  this.hammer.add(new _hammerjs2.default.Pan({ direction: _hammerjs2.default.DIRECTION_HORIZONTAL, threshold: 10 }));
+
+  this.hammer.on('pan', this.pan);
+  this.hammer.on('panleft', this.panleft);
+  this.hammer.on('panright', this.panright);
 };
 
 module.exports = function (settings) {

@@ -1,13 +1,12 @@
 /* eslint-disable */
 const path = require('path');
-const config = require('./package.json');
 const env = require('yargs').argv.env;
 const webpack = require('webpack');
 const pkg = require('./package.json');
 const plugins = [];
 
 module.exports = {
-  entry: path.resolve(__dirname, config.main),
+  entry: path.resolve(__dirname, pkg.main),
   devtool: 'source-map',
   mode: env === 'build' ? 'production' : 'development',
   output: {
@@ -38,5 +37,5 @@ module.exports = {
   devServer: {
     contentBase: './dist',
   },
-  plugins: plugins,
+  plugins,
 };

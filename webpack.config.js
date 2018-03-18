@@ -22,6 +22,13 @@ module.exports = {
         test: /(\.jsx|\.js)$/,
         loader: 'babel-loader',
         exclude: /(node_modules|bower_components)/,
+        query: {
+          presets: ['env'],
+          plugins: [
+            'transform-object-rest-spread',
+            'transform-class-properties',
+          ]
+        }
       },
       {
         test: /(\.jsx|\.js)$/,
